@@ -16,16 +16,14 @@ class OpenWeatherMapAPI {
     }()
     let weatherURLString = "https://api.openweathermap.org/data/2.5/weather?lat=???&lon=???&appid=\(apiKey)"
 
-    let coordConverterURLString = "http://api.openweathermap.org/geo/1.0/direct?q=CITYNAMEHERE&appid=\(apiKey)"
-
     let iconURLString = "https://openweathermap.org/img/wn/ICONNUMBERHERE@2x.png"
 
 
 
-    func getCoordinates() async throws(APIError) -> [APICoordinate] {
+    func getCoordinates(searchTerm: String) async throws(APIError) -> [APICoordinate] {
+        let coordConverterURLString = "http://api.openweathermap.org/geo/1.0/direct?q=\(searchTerm)&appid=\(Self.apiKey)"
         guard let url = URL(string: coordConverterURLString) else { throw .invalidURL }
         var request = URLRequest(url: url)
-        request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
 
         let (data, _): (Data, URLResponse)
 
@@ -45,10 +43,11 @@ class OpenWeatherMapAPI {
         }
     }
 
-    func getWeather() async throws(APIError) -> APIWeather {
-        guard let url = URL(string: coordConverterURLString) else { throw .invalidURL }
+    func getWeather(lon: Double, lat: Double) async throws(APIError) -> APIWeather {
+        let weatherURLString = "https://api.openweathermap.org/data/2.5/weather?lat=\(String(lat))&lon=\(String(lon))&appid=\(Self.apiKey)"
+
+        guard let url = URL(string: weatherURLString) else { throw .invalidURL }
         var request = URLRequest(url: url)
-        request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
 
         let (data, _): (Data, URLResponse)
 
@@ -66,5 +65,9 @@ class OpenWeatherMapAPI {
         } catch {
             throw .decodingFailed
         }
+    }
+
+    func getWeatherIcon() {
+
     }
 }

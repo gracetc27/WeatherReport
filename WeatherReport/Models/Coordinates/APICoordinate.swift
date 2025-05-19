@@ -10,7 +10,7 @@ struct APICoordinate: Codable {
     let name: String
     let localNames: [String: String]
     let lat: Double
-    let long: Double
+    let lon: Double
     let country: String
     let state: String
 
@@ -18,7 +18,7 @@ struct APICoordinate: Codable {
         case name = "name"
         case localNames = "local_names"
         case lat = "lat"
-        case long = "lon"
+        case lon = "lon"
         case country = "country"
         case state = "state"
     }
