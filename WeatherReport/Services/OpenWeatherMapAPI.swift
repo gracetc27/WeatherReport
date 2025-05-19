@@ -44,4 +44,27 @@ class OpenWeatherMapAPI {
             throw .decodingFailed
         }
     }
+
+    func getWeather() async throws(APIError) -> APIWeather {
+        guard let url = URL(string: coordConverterURLString) else { throw .invalidURL }
+        var request = URLRequest(url: url)
+        request.addValue(Self.apiKey, forHTTPHeaderField: "X-Api-Key")
+
+        let (data, _): (Data, URLResponse)
+
+        do {
+            (data, _) = try await URLSession.shared.data(for: request)
+        } catch {
+            throw .noData
+        }
+
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let weather = try decoder.decode(APIWeather.self, from: data)
+            return weather
+        } catch {
+            throw .decodingFailed
+        }
+    }
 }
