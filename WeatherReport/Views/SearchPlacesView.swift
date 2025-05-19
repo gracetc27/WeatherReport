@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  SearchPlacesView.swift
 //  WeatherReport
 //
 //  Created by Grace couch on 16/05/2025.
@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct SearchPlacesView: View {
+    @State private var vm = SearchPlacesViewModel()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            Text("Searching for \(vm.searchText)")
+                .searchable(text: $vm.searchText)
+                .navigationTitle("Area search")
         }
-        .padding()
     }
 }
 
