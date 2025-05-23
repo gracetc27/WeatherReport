@@ -23,7 +23,7 @@ class OpenWeatherMapAPI {
     func getCoordinates(searchTerm: String) async throws(APIError) -> [APICoordinate] {
         let coordConverterURLString = "http://api.openweathermap.org/geo/1.0/direct?q=\(searchTerm)&appid=\(Self.apiKey)"
         guard let url = URL(string: coordConverterURLString) else { throw .invalidURL }
-        var request = URLRequest(url: url)
+        let request = URLRequest(url: url)
 
         let (data, _): (Data, URLResponse)
 
@@ -47,7 +47,7 @@ class OpenWeatherMapAPI {
         let weatherURLString = "https://api.openweathermap.org/data/2.5/weather?lat=\(String(lat))&lon=\(String(lon))&appid=\(Self.apiKey)"
 
         guard let url = URL(string: weatherURLString) else { throw .invalidURL }
-        var request = URLRequest(url: url)
+        let request = URLRequest(url: url)
 
         let (data, _): (Data, URLResponse)
 

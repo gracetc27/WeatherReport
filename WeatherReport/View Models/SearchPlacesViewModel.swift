@@ -13,12 +13,21 @@ class SearchPlacesViewModel {
     var searchText = ""
     var isSearching = false
     var error: APIError?
+    var coordinates: [Coordinate] = []
+    var selectedCoord: Coord?
 
-    func searchPlaces() async {
-        do throws(APIError) {
-            try await service.getCoordinates(searchTerm: self.searchText)
-        } catch {
-            self.error = error
+    var searchTask: Task<Void, Never>?
+
+    func searchPlaces() {
+        searchTask?.cancel()
+        searchTask = Task {
+            do throws(APIError) {
+                coordinates = try await service.getCoordinates(searchTerm: self.searchText).map { apiCoordinate in
+                    Coordinate(id: UUID(), name: apiCoordinate.name, localNames: apiCoordinate.localNames, lat: apiCoordinate.lat, lon: apiCoordinate.lon, country: apiCoordinate.country, state: apiCoordinate.state, isSelected: false)
+                }
+            } catch {
+                self.error = error
+            }
         }
     }
 }
