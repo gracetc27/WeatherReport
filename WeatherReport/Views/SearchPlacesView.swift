@@ -11,9 +11,23 @@ struct SearchPlacesView: View {
     @State private var vm = SearchPlacesViewModel()
     var body: some View {
         NavigationStack {
-            Text("Searching for \(vm.searchText)")
+            if vm.isSearching {
+                Text("Searching for \(vm.searchText)")
+            } else {
+                List {
+                    ForEach(vm.coordinates) { place in
+                        Button(place.name) {
+
+                        }
+                    }
+                }
                 .searchable(text: $vm.searchText)
                 .navigationTitle("Area search")
+                .onSubmit(of: .search) {
+                    vm.isSearching = true
+                    vm.searchPlaces()
+                }
+            }
         }
     }
 }
