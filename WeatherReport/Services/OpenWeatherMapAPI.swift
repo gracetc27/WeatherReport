@@ -21,7 +21,7 @@ class OpenWeatherMapAPI {
 
 
     func getCoordinates(searchTerm: String) async throws(APIError) -> [APICoordinate] {
-        let coordConverterURLString = "http://api.openweathermap.org/geo/1.0/direct?q=\(searchTerm)&appid=\(Self.apiKey)"
+        let coordConverterURLString = "https://api.openweathermap.org/geo/1.0/direct?q=\(searchTerm)&appid=\(Self.apiKey)"
         guard let url = URL(string: coordConverterURLString) else { throw .invalidURL }
         let request = URLRequest(url: url)
 

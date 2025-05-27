@@ -24,7 +24,6 @@ struct SearchPlacesView: View {
                 .searchable(text: $vm.searchText)
                 .navigationTitle("Area search")
                 .onSubmit(of: .search) {
-                    vm.isSearching = true
                     vm.searchPlaces()
                 }
             }
