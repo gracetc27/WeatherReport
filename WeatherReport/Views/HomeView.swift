@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct HomeView: View {
-    let weatherManager: WeatherManager
+    let placeManager: PlaceManager
     var body: some View {
         
     }
 }
 
 #Preview {
-    HomeView(weatherManager: WeatherManager())
+    HomeView(placeManager: PlaceManager())
 }

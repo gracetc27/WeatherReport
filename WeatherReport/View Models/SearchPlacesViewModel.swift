@@ -10,16 +10,16 @@ import Foundation
 @Observable
 class SearchPlacesViewModel {
     private let service = OpenWeatherMapAPI()
-    let weatherManager: WeatherManager
+    private let placeManager: PlaceManager
 
-    init(weatherManager: WeatherManager) {
-        self.weatherManager = weatherManager
+    init(placeManager: PlaceManager) {
+        self.placeManager = placeManager
     }
     var searchText = ""
     var isSearching = false
     var error: APIError?
     var coordinates: [Coordinate] = []
-    var selectedCoord: Coord?
+    var weatherSheetIsActive = false
 
     var searchTask: Task<Void, Never>?
 
@@ -37,5 +37,9 @@ class SearchPlacesViewModel {
                 self.error = error
             }
         }
+    }
+
+    func saveRecentPlace(_ place: Coordinate) {
+        placeManager.savePlace(place)
     }
 }
