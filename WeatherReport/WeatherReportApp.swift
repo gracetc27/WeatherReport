@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct WeatherReportApp: App {
+    let weatherManager = WeatherManager()
     var body: some Scene {
         WindowGroup {
-            SearchPlacesView()
+            MainTabView(weatherManager: weatherManager)
         }
     }
 }

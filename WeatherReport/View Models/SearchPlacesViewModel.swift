@@ -10,6 +10,11 @@ import Foundation
 @Observable
 class SearchPlacesViewModel {
     private let service = OpenWeatherMapAPI()
+    let weatherManager: WeatherManager
+
+    init(weatherManager: WeatherManager) {
+        self.weatherManager = weatherManager
+    }
     var searchText = ""
     var isSearching = false
     var error: APIError?

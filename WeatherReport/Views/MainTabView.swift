@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct MainTabView: View {
+    let weatherManager: WeatherManager
     var body: some View {
         TabView {
-            HomeView()
+            HomeView(weatherManager: weatherManager)
                 .tabItem {
                     Label("Headlines", systemImage: "list.dash")
                 }
             
-            SearchPlacesView()
+            SearchPlacesView(weatherManager: weatherManager)
                 .tabItem {
                     Label("Sources", systemImage: "square.and.pencil")
                 }
@@ -24,5 +25,5 @@ struct MainTabView: View {
 }
 
 #Preview {
-    MainTabView()
+    MainTabView(weatherManager: WeatherManager())
 }

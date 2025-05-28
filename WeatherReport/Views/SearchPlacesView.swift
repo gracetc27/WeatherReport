@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct SearchPlacesView: View {
-    @State private var vm = SearchPlacesViewModel()
+    @State private var viewModel: SearchPlacesViewModel
+    init(weatherManager: WeatherManager) {
+        self._viewModel = State(initialValue: SearchPlacesViewModel(weatherManager: weatherManager))
+    }
+
     var body: some View {
         NavigationStack {
-            if vm.isSearching {
-                Text("Searching for \(vm.searchText)")
+            if viewModel.isSearching {
+                Text("Searching for \(viewModel.searchText)")
             } else {
                 List {
-                    ForEach(vm.coordinates) { place in
+                    ForEach(viewModel.coordinates) { place in
                         NavigationLink {
                             WeatherDetailView()
                         } label: {
@@ -23,10 +27,10 @@ struct SearchPlacesView: View {
                         }
                     }
                 }
-                .searchable(text: $vm.searchText)
+                .searchable(text: $viewModel.searchText)
                 .navigationTitle("Area search")
                 .onSubmit(of: .search) {
-                    vm.searchPlaces()
+                    viewModel.searchPlaces()
                 }
             }
         }
@@ -34,5 +38,5 @@ struct SearchPlacesView: View {
 }
 
 #Preview {
-    SearchPlacesView()
+    SearchPlacesView(weatherManager: WeatherManager())
 }
