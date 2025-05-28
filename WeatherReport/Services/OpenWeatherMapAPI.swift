@@ -58,7 +58,6 @@ class OpenWeatherMapAPI {
 
         do {
             let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
             let weather = try decoder.decode(APIWeather.self, from: data)
             return weather
         } catch {

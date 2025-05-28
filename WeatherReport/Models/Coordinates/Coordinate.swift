@@ -14,7 +14,6 @@ struct Coordinate: Codable, Identifiable {
     let lon: Double
     let country: String
     let state: String
-    var isSelected: Bool
 
     static let defaultPlace = Coordinate(
         id: UUID(),
@@ -23,6 +22,5 @@ struct Coordinate: Codable, Identifiable {
         lat: 300.6,
         lon: 250.5,
         country: "England",
-        state: "Greater london",
-        isSelected: true)
+        state: "Greater london")
 }
