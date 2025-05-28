@@ -11,27 +11,38 @@ import Foundation
 class SearchPlacesViewModel {
     private let service = OpenWeatherMapAPI()
     private let placeManager: PlaceManager
-
-    init(placeManager: PlaceManager) {
-        self.placeManager = placeManager
-    }
     var searchText = ""
     var isSearching = false
     var error: APIError?
     var coordinates: [Coordinate] = []
     var weatherSheetIsActive = false
+    var weather: Weather = .defaultWeather
+    var place: Coordinate = .defaultPlace
 
-    var searchTask: Task<Void, Never>?
+    init(placeManager: PlaceManager) {
+        self.placeManager = placeManager
+    }
+
+    var searchCoordTask: Task<Void, Never>?
+
+    var searchWeatherTask: Task<Void, Never>?
 
     func searchPlaces() {
-        searchTask?.cancel()
-        searchTask = Task {
+        searchCoordTask?.cancel()
+        searchCoordTask = Task {
             isSearching = true
             defer { isSearching = false }
 
             do throws(APIError) {
                 coordinates = try await service.getCoordinates(searchTerm: self.searchText).map { apiCoordinate in
-                    Coordinate(id: UUID(), name: apiCoordinate.name, localNames: apiCoordinate.localNames, lat: apiCoordinate.lat, lon: apiCoordinate.lon, country: apiCoordinate.country, state: apiCoordinate.state, isSelected: false)
+                    Coordinate(
+                        id: UUID(),
+                        name: apiCoordinate.name,
+                        localNames: apiCoordinate.localNames,
+                        lat: apiCoordinate.lat,
+                        lon: apiCoordinate.lon,
+                        country: apiCoordinate.country,
+                        state: apiCoordinate.state)
                 }
             } catch {
                 self.error = error
@@ -40,6 +51,24 @@ class SearchPlacesViewModel {
     }
 
     func saveRecentPlace(_ place: Coordinate) {
+        self.place = place
         placeManager.savePlace(place)
+    }
+
+    func getWeatherForCoord() {
+        searchWeatherTask?.cancel()
+        searchWeatherTask = Task {
+            do throws(APIError) {
+                let apiWeather = try await service.getWeather(lon: place.lon, lat: place.lat)
+                self.weather = Weather(
+                    coord: apiWeather.coord,
+                    weather: apiWeather.weather,
+                    main: apiWeather.main,
+                    wind: apiWeather.wind)
+            } catch {
+                self.error = error
+                print(error)
+            }
+        }
     }
 }
