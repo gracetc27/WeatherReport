@@ -16,8 +16,10 @@ struct SearchPlacesView: View {
             } else {
                 List {
                     ForEach(vm.coordinates) { place in
-                        Button(place.name) {
-
+                        NavigationLink {
+                            WeatherDetailView()
+                        } label: {
+                            Text(place.name)
                         }
                     }
                 }

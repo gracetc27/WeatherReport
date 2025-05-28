@@ -14,7 +14,6 @@ class OpenWeatherMapAPI {
         let newsAPIKey = dict["OpenWeatherMapKey"] as! String
         return newsAPIKey
     }()
-    let weatherURLString = "https://api.openweathermap.org/data/2.5/weather?lat=???&lon=???&appid=\(apiKey)"
 
     let iconURLString = "https://openweathermap.org/img/wn/ICONNUMBERHERE@2x.png"
 

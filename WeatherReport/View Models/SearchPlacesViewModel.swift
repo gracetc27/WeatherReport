@@ -28,7 +28,6 @@ class SearchPlacesViewModel {
                 coordinates = try await service.getCoordinates(searchTerm: self.searchText).map { apiCoordinate in
                     Coordinate(id: UUID(), name: apiCoordinate.name, localNames: apiCoordinate.localNames, lat: apiCoordinate.lat, lon: apiCoordinate.lon, country: apiCoordinate.country, state: apiCoordinate.state, isSelected: false)
                 }
-                
             } catch {
                 self.error = error
             }
