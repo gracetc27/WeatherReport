@@ -15,4 +15,14 @@ struct Coordinate: Codable, Identifiable {
     let country: String
     let state: String
     var isSelected: Bool
+
+    static let defaultPlace = Coordinate(
+        id: UUID(),
+        name: "London",
+        localNames: ["London": "London"],
+        lat: 300.6,
+        lon: 250.5,
+        country: "England",
+        state: "Greater london",
+        isSelected: true)
 }
