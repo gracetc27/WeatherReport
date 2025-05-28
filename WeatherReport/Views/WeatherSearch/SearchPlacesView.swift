@@ -21,13 +21,16 @@ struct SearchPlacesView: View {
                 List {
                     ForEach(viewModel.coordinates) { place in
                         Button {
-                            viewModel.weatherSheetIsActive = true
                             viewModel.saveRecentPlace(place)
+                            viewModel.getWeatherForCoord()
+                            viewModel.weatherSheetIsActive = true
                         } label: {
                             Text(place.name)
                         }
-
                     }
+                }
+                .sheet(isPresented: $viewModel.weatherSheetIsActive) {
+                    WeatherDetailView(viewModel: viewModel)
                 }
                 .searchable(text: $viewModel.searchText)
                 .navigationTitle("Area search")

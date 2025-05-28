@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     let placeManager: PlaceManager
     var body: some View {
-        
+        Text("Home")
     }
 }
 

@@ -13,12 +13,12 @@ struct MainTabView: View {
         TabView {
             HomeView(placeManager: placeManager)
                 .tabItem {
-                    Label("Headlines", systemImage: "list.dash")
+                    Label("Home", systemImage: "house")
                 }
             
             SearchPlacesView(placeManager: placeManager)
                 .tabItem {
-                    Label("Sources", systemImage: "square.and.pencil")
+                    Label("Weather Search", systemImage: "magnifyingglass")
                 }
         }
     }
