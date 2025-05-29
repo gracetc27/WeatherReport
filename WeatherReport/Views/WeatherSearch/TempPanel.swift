@@ -10,6 +10,8 @@ import SwiftUI
 struct TempPanel: View {
     let main: MainWeather
     var body: some View {
+        Text("Main Weather")
+            .font(.title2.bold())
         HStack {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Temperature:")

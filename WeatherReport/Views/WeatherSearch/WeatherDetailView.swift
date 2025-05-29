@@ -11,9 +11,17 @@ struct WeatherDetailView: View {
     let viewModel: SearchPlacesViewModel
     var body: some View {
         VStack {
-            Text(viewModel.place.name)
-                .font(.largeTitle.bold())
+            HStack {
+                Text(viewModel.place.name)
+                    .font(.largeTitle.bold())
+                Text("(\(viewModel.place.country))")
+                    .font(.title)
+            }
+            Spacer()
+            TempPanel(main: viewModel.weather.main)
+            WindPanel(wind: viewModel.weather.wind)
         }
+        Spacer()
     }
 }
 
