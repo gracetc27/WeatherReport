@@ -11,7 +11,8 @@ struct WeatherDetailView: View {
     let viewModel: SearchPlacesViewModel
     var body: some View {
         VStack {
-            Text(String(viewModel.weather.main.temp))
+            Text(viewModel.place.name)
+                .font(.largeTitle.bold())
         }
     }
 }

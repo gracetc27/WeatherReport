@@ -10,7 +10,10 @@ import SwiftUI
 struct HomeView: View {
     let placeManager: PlaceManager
     var body: some View {
-        Text("Home")
+        Text(placeManager.recentSelectedPlace.name)
+            .task {
+                await placeManager.loadSavedPlace()
+            }
     }
 }
 
