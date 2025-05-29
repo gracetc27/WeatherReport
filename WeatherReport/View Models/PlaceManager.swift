@@ -10,7 +10,7 @@ import Foundation
 class PlaceManager {
     var recentSelectedPlace: Coordinate = .defaultPlace
 
-    private let savePath = URL.documentsDirectory.appendingPathComponent("default place")
+    private let savePath = URL.documentsDirectory.appendingPathComponent("recent place")
 
 
     func loadSavedPlace() async {

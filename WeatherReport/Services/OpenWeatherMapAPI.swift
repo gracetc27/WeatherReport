@@ -43,7 +43,7 @@ class OpenWeatherMapAPI {
     }
 
     func getWeather(lon: Double, lat: Double) async throws(APIError) -> APIWeather {
-        let weatherURLString = "https://api.openweathermap.org/data/2.5/weather?lat=\(String(lat))&lon=\(String(lon))&appid=\(Self.apiKey)"
+        let weatherURLString = "https://api.openweathermap.org/data/2.5/weather?lat=\(String(lat))&lon=\(String(lon))&appid=\(Self.apiKey)&units=metric"
 
         guard let url = URL(string: weatherURLString) else { throw .invalidURL }
         let request = URLRequest(url: url)
@@ -58,6 +58,7 @@ class OpenWeatherMapAPI {
 
         do {
             let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
             let weather = try decoder.decode(APIWeather.self, from: data)
             return weather
         } catch {
