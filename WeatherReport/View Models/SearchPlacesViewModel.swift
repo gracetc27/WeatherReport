@@ -64,7 +64,9 @@ class SearchPlacesViewModel {
                     coord: apiWeather.coord,
                     weather: apiWeather.weather,
                     main: apiWeather.main,
-                    wind: apiWeather.wind)
+                    wind: apiWeather.wind,
+                    clouds: apiWeather.clouds,
+                    rain: apiWeather.rain)
             } catch {
                 self.error = error
                 print(error)

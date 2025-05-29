@@ -12,6 +12,8 @@ struct Weather: Codable {
     let weather: [WeatherIcon]
     let main: MainWeather
     let wind: Wind
+    let clouds: Clouds
+    let rain: Rain?
     static let defaultWeather = Weather(
         coord: Coord(lon: 250.1, lat: 50.7),
         weather: [WeatherIcon(
@@ -31,6 +33,10 @@ struct Weather: Codable {
         wind: Wind(
             speed: 20.2,
             deg: 30,
-            gust: 23.7)
+            gust: 23.7),
+        clouds: Clouds(
+            all: 63),
+        rain: Rain(
+            perHour: 2.73)
     )
 }

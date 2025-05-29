@@ -7,10 +7,12 @@
 import Foundation
 
 struct APIWeather: Codable {
-        let coord: Coord
-        let weather: [WeatherIcon]
-        let main: MainWeather
-        let wind: Wind
+    let coord: Coord
+    let weather: [WeatherIcon]
+    let main: MainWeather
+    let wind: Wind
+    let rain: Rain
+    let clouds: Clouds
 }
 
 

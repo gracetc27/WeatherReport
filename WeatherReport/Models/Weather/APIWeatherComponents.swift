@@ -26,3 +26,16 @@ struct Wind: Codable {
 struct Coord: Codable {
     let lon, lat: Double
 }
+
+struct Rain: Codable {
+    let perHour: Double
+
+    enum CodingKeys: String, CodingKey {
+        case perHour = "1h"
+    }
+}
+
+struct Clouds: Codable {
+    let all: Int
+}
+
