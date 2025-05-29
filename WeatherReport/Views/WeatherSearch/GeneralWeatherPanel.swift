@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct GeneralWeatherPanel: View {
+    let viewModel: SearchPlacesViewModel
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            WeatherIconView(url: viewModel.getIconURL())
+                .frame(width: 100, height: 100)
+        }
     }
 }
 
 #Preview {
-    GeneralWeatherPanel()
+    GeneralWeatherPanel(viewModel: SearchPlacesViewModel(placeManager: PlaceManager()))
 }

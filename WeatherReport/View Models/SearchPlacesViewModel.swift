@@ -73,4 +73,8 @@ class SearchPlacesViewModel {
             }
         }
     }
+
+    func getIconURL() -> URL {
+        service.getWeatherIconURL(iconString: self.weather.weather[0].icon)
+    }
 }

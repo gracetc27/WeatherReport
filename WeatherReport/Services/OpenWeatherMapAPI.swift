@@ -15,7 +15,7 @@ class OpenWeatherMapAPI {
         return newsAPIKey
     }()
 
-    let iconURLString = "https://openweathermap.org/img/wn/ICONNUMBERHERE@2x.png"
+
 
 
 
@@ -66,7 +66,8 @@ class OpenWeatherMapAPI {
         }
     }
 
-    func getWeatherIcon() {
-
+    func getWeatherIconURL(iconString: String) -> URL {
+        let iconURLString = "https://openweathermap.org/img/wn/\(iconString)@2x.png"
+        return URL(string: iconURLString)!
     }
 }
