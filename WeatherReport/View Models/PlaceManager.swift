@@ -7,6 +7,7 @@
 
 import Foundation
 
+@Observable
 class PlaceManager {
     var recentSelectedPlace: Coordinate = .defaultPlace
 

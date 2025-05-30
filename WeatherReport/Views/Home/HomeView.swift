@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct HomeView: View {
-    let placeManager: PlaceManager
+    @State private var viewModel: HomeViewModel
+    init(placeManager: PlaceManager) {
+        self._viewModel = State(initialValue: HomeViewModel(placeManager: placeManager))
+    }
     var body: some View {
-        Text(placeManager.recentSelectedPlace.name)
-            .task {
-                await placeManager.loadSavedPlace()
-            }
+        VStack {
+            Text(viewModel.recentPlace.name)
+        }
+        .task {
+            await viewModel.loadRecentPlace()
+        }
     }
 }
 
