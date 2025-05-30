@@ -10,8 +10,10 @@ import Foundation
 @Observable
 class HomeViewModel {
     private let placeManager: PlaceManager
+    private let service = OpenWeatherMapAPI()
     var recentPlace: Coordinate = .defaultPlace
     var recentWeather: Weather = .defaultWeather
+    var error: Error?
 
     init(placeManager: PlaceManager) {
         self.placeManager = placeManager
@@ -20,5 +22,24 @@ class HomeViewModel {
     func loadRecentPlace() async {
         await placeManager.loadSavedPlace()
         recentPlace = placeManager.recentSelectedPlace
+    }
+
+    func getWeatherForRecentPlace() async {
+        do throws(APIError) {
+            let apiWeather = try await service.getWeather(lon: recentPlace.lon, lat: recentPlace.lat)
+            self.recentWeather = Weather(
+                coord: apiWeather.coord,
+                weather: apiWeather.weather,
+                main: apiWeather.main,
+                wind: apiWeather.wind,
+                clouds: apiWeather.clouds,
+                rain: apiWeather.rain)
+        } catch {
+            self.error = error
+        }
+    }
+
+    func getRecentIconURL() -> URL {
+        service.getWeatherIconURL(iconString: self.recentWeather.weather[0].icon)
     }
 }

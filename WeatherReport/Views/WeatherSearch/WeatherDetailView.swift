@@ -11,13 +11,8 @@ struct WeatherDetailView: View {
     let viewModel: SearchPlacesViewModel
     var body: some View {
         VStack {
-            HStack {
-                Text(viewModel.place.name)
-                    .font(.largeTitle.bold())
-                Text("(\(viewModel.place.country))")
-                    .font(.title)
-            }
-            GeneralWeatherPanel(viewModel: viewModel)
+            PlaceTitleView(place: viewModel.place)
+            GeneralWeatherPanel(weather: viewModel.weather, url: viewModel.getIconURL())
             TempPanel(main: viewModel.weather.main)
             WindPanel(wind: viewModel.weather.wind)
         }

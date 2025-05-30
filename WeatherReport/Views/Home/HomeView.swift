@@ -14,10 +14,12 @@ struct HomeView: View {
     }
     var body: some View {
         VStack {
-            Text(viewModel.recentPlace.name)
+            PlaceTitleView(place: viewModel.recentPlace)
+            RecentPlaceWeatherView(viewModel: viewModel)
         }
         .task {
             await viewModel.loadRecentPlace()
+            await viewModel.getWeatherForRecentPlace()
         }
     }
 }
