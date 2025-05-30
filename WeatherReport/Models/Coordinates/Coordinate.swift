@@ -6,8 +6,7 @@
 //
 import Foundation
 
-struct Coordinate: Codable, Identifiable {
-    let id: UUID
+struct Coordinate: Codable {
     let name: String
     let localNames: [String: String]
     let lat: Double
@@ -16,7 +15,6 @@ struct Coordinate: Codable, Identifiable {
     let state: String
 
     static let defaultPlace = Coordinate(
-        id: UUID(),
         name: "London",
         localNames: ["London": "London"],
         lat: 300.6,
