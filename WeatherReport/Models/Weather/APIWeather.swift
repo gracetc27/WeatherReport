@@ -11,7 +11,7 @@ struct APIWeather: Codable {
     let weather: [WeatherIcon]
     let main: MainWeather
     let wind: Wind
-    let rain: Rain
+    let rain: Rain?
     let clouds: Clouds
 }
 

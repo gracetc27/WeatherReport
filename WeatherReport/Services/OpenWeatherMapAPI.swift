@@ -52,6 +52,7 @@ class OpenWeatherMapAPI {
 
         do {
             (data, _) = try await URLSession.shared.data(for: request)
+            print(String(data: data, encoding: .utf8))
         } catch {
             throw .noData
         }
@@ -62,6 +63,7 @@ class OpenWeatherMapAPI {
             let weather = try decoder.decode(APIWeather.self, from: data)
             return weather
         } catch {
+            print(error)
             throw .decodingFailed
         }
     }

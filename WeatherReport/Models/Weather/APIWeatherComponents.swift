@@ -28,7 +28,7 @@ struct Coord: Codable {
 }
 
 struct Rain: Codable {
-    let perHour: Double
+    let perHour: Double?
 
     enum CodingKeys: String, CodingKey {
         case perHour = "1h"

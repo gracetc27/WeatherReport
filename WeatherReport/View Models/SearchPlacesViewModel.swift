@@ -69,7 +69,6 @@ class SearchPlacesViewModel {
                     rain: apiWeather.rain)
             } catch {
                 self.error = error
-                print(error)
             }
         }
     }
