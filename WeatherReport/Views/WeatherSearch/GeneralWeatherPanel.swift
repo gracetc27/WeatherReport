@@ -13,6 +13,7 @@ struct GeneralWeatherPanel: View {
         HStack {
             WeatherIconView(url: viewModel.getIconURL())
                 .frame(width: 100, height: 100)
+            Text(viewModel.weather.weather[0].description.capitalized)
         }
     }
 }

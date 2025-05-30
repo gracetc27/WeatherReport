@@ -17,7 +17,7 @@ struct WeatherDetailView: View {
                 Text("(\(viewModel.place.country))")
                     .font(.title)
             }
-            Spacer()
+            GeneralWeatherPanel(viewModel: viewModel)
             TempPanel(main: viewModel.weather.main)
             WindPanel(wind: viewModel.weather.wind)
         }
