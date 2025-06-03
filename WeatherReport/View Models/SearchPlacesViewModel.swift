@@ -13,7 +13,9 @@ class SearchPlacesViewModel {
     private let placeManager: PlaceManager
     var searchText = ""
     var isSearching = false
-    var error: APIError?
+    var weatherError: APIError?
+    var placeError: APIError?
+    var saveError: Error?
     var coordinates: [Coordinate] = []
     var weatherSheetIsActive = false
     var weather: Weather = .defaultWeather
@@ -45,14 +47,18 @@ class SearchPlacesViewModel {
                         state: apiCoordinate.state)
                 }
             } catch {
-                self.error = error
+                self.placeError = error
             }
         }
     }
 
     func saveRecentPlace(_ place: Coordinate) {
-        self.place = place
-        placeManager.savePlace(place)
+        do {
+            self.place = place
+            try placeManager.savePlace(place)
+        } catch {
+            self.saveError = error
+        }
     }
 
     func getWeatherForCoord() {
@@ -68,7 +74,7 @@ class SearchPlacesViewModel {
                     clouds: apiWeather.clouds,
                     rain: apiWeather.rain)
             } catch {
-                self.error = error
+                self.weatherError = error
             }
         }
     }

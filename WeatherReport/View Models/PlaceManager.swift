@@ -9,28 +9,27 @@ import Foundation
 
 @Observable
 class PlaceManager {
-    var recentSelectedPlace: Coordinate = .defaultPlace
+    var recentSelectedPlace: Coordinate?
 
     private let savePath = URL.documentsDirectory.appendingPathComponent("recent place")
 
 
-    func loadSavedPlace() async {
+    func loadSavedPlace() async throws {
         do {
             let data = try Data(contentsOf: savePath)
             recentSelectedPlace = try JSONDecoder().decode(Coordinate.self, from: data)
         } catch {
-            print(error.localizedDescription)
-            recentSelectedPlace = .defaultPlace
+            throw error
         }
     }
 
-    func savePlace(_ place: Coordinate) {
+    func savePlace(_ place: Coordinate) throws {
         do {
             recentSelectedPlace = place
             let data = try JSONEncoder().encode(recentSelectedPlace)
             try data.write(to: savePath, options: [.atomic, .completeFileProtection])
         } catch {
-            print("Unable to save data.")
+            throw error
         }
     }
 }

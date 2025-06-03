@@ -21,8 +21,12 @@ class HomeViewModel {
     }
 
     func loadRecentPlace() async {
-        await placeManager.loadSavedPlace()
-        recentPlace = placeManager.recentSelectedPlace
+        do {
+            try await placeManager.loadSavedPlace()
+            recentPlace = placeManager.recentSelectedPlace
+        } catch {
+            self.recentPlaceError = error
+        }
     }
 
     func getWeatherForRecentPlace() async {
