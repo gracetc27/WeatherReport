@@ -12,9 +12,11 @@ struct EmptyRecentWeatherView: View {
         VStack {
             Text("No recent weather available...")
                 .multilineTextAlignment(.center)
-                .font(.largeTitle.bold())
+                .font(.title3.bold())
                 .padding()
             Text("Search a city to see the weather!")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }

@@ -13,24 +13,34 @@ struct HomeView: View {
         self._viewModel = State(initialValue: HomeViewModel(placeManager: placeManager))
     }
     var body: some View {
-        Group {
-            if let recentPlace = viewModel.recentPlace,
-               let recentWeather = viewModel.recentWeather,
-               let iconUrl = viewModel.iconUrl {
-                VStack {
-                    PlaceTitleView(place: recentPlace)
-                    RecentPlaceWeatherView(weather: recentWeather, url: iconUrl)
+        NavigationStack {
+            VStack(alignment: .leading) {
+                Spacer()
+                Text("Recently Searched City")
+                    .padding()
+                    .font(.title2.bold())
+                Spacer()
+                if let recentPlace = viewModel.recentPlace,
+                   let recentWeather = viewModel.recentWeather,
+                   let iconUrl = viewModel.iconUrl {
+                    VStack {
+                        PlaceTitleView(place: recentPlace)
+                        RecentPlaceWeatherView(weather: recentWeather, url: iconUrl)
+                    }
+                } else {
+                    EmptyRecentWeatherView()
                 }
-            } else {
-                EmptyRecentWeatherView()
+                Spacer()
             }
-        }
-        .task {
-            await viewModel.loadRecentPlace()
-            await viewModel.getWeatherForRecentPlace()
+            .navigationTitle("Weather report")
+            .task {
+                await viewModel.loadRecentPlace()
+                await viewModel.getWeatherForRecentPlace()
+            }
         }
     }
 }
+
 
 #Preview {
     HomeView(placeManager: PlaceManager())

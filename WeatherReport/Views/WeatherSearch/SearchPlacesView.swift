@@ -33,7 +33,7 @@ struct SearchPlacesView: View {
                     WeatherDetailView(viewModel: viewModel)
                 }
                 .searchable(text: $viewModel.searchText)
-                .navigationTitle("Area search")
+                .navigationTitle("City search")
                 .onSubmit(of: .search) {
                     viewModel.searchPlaces()
                 }
