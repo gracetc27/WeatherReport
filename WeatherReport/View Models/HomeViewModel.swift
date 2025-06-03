@@ -15,6 +15,13 @@ class HomeViewModel {
     var recentWeather: Weather?
     var recentPlaceError: Error?
     var weatherError: Error?
+    var iconUrl: URL? {
+        if let recentWeather {
+          return service.getWeatherIconURL(iconString: recentWeather.weather[0].icon)
+        } else {
+            return nil
+        }
+    }
 
     init(placeManager: PlaceManager) {
         self.placeManager = placeManager
@@ -43,12 +50,6 @@ class HomeViewModel {
             } catch {
                 self.weatherError = error
             }
-        }
-    }
-
-    func getRecentIconURL() -> URL {
-        if let recentWeather {
-            service.getWeatherIconURL(iconString: self.recentWeather.weather[0].icon)
         }
     }
 }

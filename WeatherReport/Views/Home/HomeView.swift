@@ -14,10 +14,12 @@ struct HomeView: View {
     }
     var body: some View {
         Group {
-            if let recentPlace = viewModel.recentPlace, let recentWeather = viewModel.recentWeather {
+            if let recentPlace = viewModel.recentPlace,
+               let recentWeather = viewModel.recentWeather,
+               let iconUrl = viewModel.iconUrl {
                 VStack {
                     PlaceTitleView(place: recentPlace)
-                    RecentPlaceWeatherView(weather: recentWeather, url: viewModel.getRecentIconURL())
+                    RecentPlaceWeatherView(weather: recentWeather, url: iconUrl)
                 }
             } else {
                 EmptyRecentWeatherView()
