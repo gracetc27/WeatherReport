@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct RecentPlaceWeatherView: View {
-    let viewModel: HomeViewModel
+    let weather: Weather
+    let url: URL
     var body: some View {
         VStack {
-            GeneralWeatherPanel(weather: viewModel.recentWeather, url: viewModel.getRecentIconURL())
+            GeneralWeatherPanel(weather: weather, url: url)
             ScrollView(.horizontal) {
                 HStack(alignment: .top) {
-                    TempPanel(main: viewModel.recentWeather.main)
-                    WindPanel(wind: viewModel.recentWeather.wind)
+                    TempPanel(main: weather.main)
+                    WindPanel(wind: weather.wind)
                 }
                 .padding()
             }
@@ -24,5 +25,5 @@ struct RecentPlaceWeatherView: View {
 }
 
 #Preview {
-    RecentPlaceWeatherView(viewModel: HomeViewModel(placeManager: PlaceManager()))
+    RecentPlaceWeatherView(weather: .defaultWeather, url: URL(string: "ubtv")!)
 }

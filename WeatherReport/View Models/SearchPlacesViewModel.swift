@@ -46,16 +46,16 @@ class SearchPlacesViewModel {
                         country: apiCoordinate.country,
                         state: apiCoordinate.state)
                 }
+                self.place = coordinates[0]
             } catch {
                 self.placeError = error
             }
         }
     }
 
-    func saveRecentPlace(_ place: Coordinate) {
+    func saveRecentPlace() {
         do {
-            self.place = place
-            try placeManager.savePlace(place)
+            try placeManager.savePlace(self.place)
         } catch {
             self.saveError = error
         }

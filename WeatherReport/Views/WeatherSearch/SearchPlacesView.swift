@@ -21,7 +21,7 @@ struct SearchPlacesView: View {
                 List {
                     ForEach(viewModel.coordinates) { place in
                         Button {
-                            viewModel.saveRecentPlace(place)
+                            viewModel.saveRecentPlace()
                             viewModel.getWeatherForCoord()
                             viewModel.weatherSheetIsActive = true
                         } label: {
