@@ -11,9 +11,10 @@ import Foundation
 class HomeViewModel {
     private let placeManager: PlaceManager
     private let service = OpenWeatherMapAPI()
-    var recentPlace: Coordinate = .defaultPlace
-    var recentWeather: Weather = .defaultWeather
-    var error: Error?
+    var recentPlace: Coordinate?
+    var recentWeather: Weather?
+    var recentPlaceError: Error?
+    var weatherError: Error?
 
     init(placeManager: PlaceManager) {
         self.placeManager = placeManager
@@ -25,21 +26,25 @@ class HomeViewModel {
     }
 
     func getWeatherForRecentPlace() async {
-        do throws(APIError) {
-            let apiWeather = try await service.getWeather(lon: recentPlace.lon, lat: recentPlace.lat)
-            self.recentWeather = Weather(
-                coord: apiWeather.coord,
-                weather: apiWeather.weather,
-                main: apiWeather.main,
-                wind: apiWeather.wind,
-                clouds: apiWeather.clouds,
-                rain: apiWeather.rain)
-        } catch {
-            self.error = error
+        if let recentPlace {
+            do throws(APIError) {
+                let apiWeather = try await service.getWeather(lon: recentPlace.lon, lat: recentPlace.lat)
+                self.recentWeather = Weather(
+                    coord: apiWeather.coord,
+                    weather: apiWeather.weather,
+                    main: apiWeather.main,
+                    wind: apiWeather.wind,
+                    clouds: apiWeather.clouds,
+                    rain: apiWeather.rain)
+            } catch {
+                self.weatherError = error
+            }
         }
     }
 
     func getRecentIconURL() -> URL {
-        service.getWeatherIconURL(iconString: self.recentWeather.weather[0].icon)
+        if let recentWeather {
+            service.getWeatherIconURL(iconString: self.recentWeather.weather[0].icon)
+        }
     }
 }

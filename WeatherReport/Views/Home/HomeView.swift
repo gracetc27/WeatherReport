@@ -13,9 +13,15 @@ struct HomeView: View {
         self._viewModel = State(initialValue: HomeViewModel(placeManager: placeManager))
     }
     var body: some View {
-        VStack {
-            PlaceTitleView(place: viewModel.recentPlace)
-            RecentPlaceWeatherView(viewModel: viewModel)
+        Group {
+            if let recentPlace = viewModel.recentPlace {
+                VStack {
+                    PlaceTitleView(place: recentPlace)
+                    RecentPlaceWeatherView(viewModel: viewModel)
+                }
+            } else {
+                EmptyRecentWeatherView()
+            }
         }
         .task {
             await viewModel.loadRecentPlace()
