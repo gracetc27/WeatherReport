@@ -31,6 +31,7 @@ struct SearchPlacesView: View {
                 }
                 .sheet(isPresented: $viewModel.weatherSheetIsActive) {
                     WeatherDetailView(viewModel: viewModel)
+                        .padding(.vertical)
                 }
                 .searchable(text: $viewModel.searchText)
                 .navigationTitle("City search")

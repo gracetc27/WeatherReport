@@ -8,15 +8,23 @@
 import SwiftUI
 
 struct WeatherDetailView: View {
+    @Environment(\.dismiss) var dismiss
     let viewModel: SearchPlacesViewModel
     var body: some View {
-        VStack {
-            PlaceTitleView(place: viewModel.place)
-            GeneralWeatherPanel(weather: viewModel.weather, url: viewModel.getIconURL())
-            TempPanel(main: viewModel.weather.main)
-            WindPanel(wind: viewModel.weather.wind)
+        NavigationStack {
+            VStack {
+                PlaceTitleView(place: viewModel.place)
+                GeneralWeatherPanel(weather: viewModel.weather, url: viewModel.getIconURL())
+                TempPanel(main: viewModel.weather.main)
+                WindPanel(wind: viewModel.weather.wind)
+            }
+            .toolbar {
+                Button("Done") {
+                    dismiss()
+                }
+            }
+            Spacer()
         }
-        Spacer()
     }
 }
 
