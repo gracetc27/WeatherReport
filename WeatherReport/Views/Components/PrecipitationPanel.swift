@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PrecipitationPanel: View {
     let rain: Rain?
-    let clouds: Clouds
+    let clouds: APIClouds
     var body: some View {
         VStack(alignment: .leading) {
             Text("Precipitation")

@@ -24,17 +24,25 @@ struct TempPanel: View {
                 .bold()
                 Spacer()
                 VStack(alignment: .trailing, spacing: 20) {
-                    Text("\(main.temp ?? 0)°C")
-                    Text("\(main.feelsLike ?? 0)°C")
+                    tempText(main.tempMeasurement)
+                    tempText(main.feelsLikeMeasurement)
                     Text("\(main.humidity ?? 0)%")
                     Text("\(main.pressure ?? 0) hPa")
-                    
+
                 }
             }
         }
         .frame(width: screenWidth * 0.9)
     }
+
+    @ViewBuilder
+    func tempText(_ temp: Measurement<UnitTemperature>?) -> some View {
+        if let temp {
+           Text(temp, format: .measurement(width: .abbreviated, usage: .weather))
+        }
+    }
 }
+
 
 #Preview {
     TempPanel(main: Weather.defaultWeather.main)
