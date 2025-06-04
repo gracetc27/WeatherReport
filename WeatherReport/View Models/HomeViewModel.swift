@@ -46,10 +46,19 @@ class HomeViewModel {
                 self.recentWeather = Weather(
                     coord: apiWeather.coord,
                     weather: apiWeather.weather,
-                    main: apiWeather.main,
-                    wind: apiWeather.wind,
+                    main: MainWeather(
+                        temp: apiWeather.main.temp,
+                        feelsLike: apiWeather.main.feelsLike,
+                        tempMin: apiWeather.main.tempMin,
+                        tempMax: apiWeather.main.tempMax,
+                        pressure: apiWeather.main.pressure,
+                        humidity: apiWeather.main.humidity),
+                    wind: Wind(
+                        speed: apiWeather.wind.speed,
+                        deg: apiWeather.wind.deg,
+                        gust: apiWeather.wind.gust),
                     clouds: apiWeather.clouds,
-                    rain: apiWeather.rain)
+                    rain: Rain(perHour: apiWeather.rain?.perHour))
             } catch {
                 self.weatherError = error
                 self.isShowingWeatherError = true
