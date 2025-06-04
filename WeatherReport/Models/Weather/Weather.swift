@@ -8,15 +8,15 @@
 import Foundation
 
 struct Weather: Codable {
-    let coord: Coord
-    let weather: [WeatherIcon]
+    let coord: APICoord
+    let weather: [APIWeatherIcon]
     let main: MainWeather
     let wind: Wind
-    let clouds: Clouds
+    let clouds: APIClouds
     let rain: Rain?
     static let defaultWeather = Weather(
-        coord: Coord(lon: 250.1, lat: 50.7),
-        weather: [WeatherIcon(
+        coord: APICoord(lon: 250.1, lat: 50.7),
+        weather: [APIWeatherIcon(
             id: 1,
             main: "weather icon 1",
             description: "rain",
@@ -27,14 +27,12 @@ struct Weather: Codable {
             tempMin: 5.6,
             tempMax: 14.5,
             pressure: 3,
-            humidity: 4,
-            seaLevel: 100,
-            grndLevel: 90),
+            humidity: 4),
         wind: Wind(
             speed: 20.2,
             deg: 30,
             gust: 23.7),
-        clouds: Clouds(
+        clouds: APIClouds(
             all: 63),
         rain: Rain(
             perHour: 2.73)
