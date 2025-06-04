@@ -32,6 +32,8 @@ struct HomeView: View {
                 }
                 Spacer()
             }
+            .alert(isPresented: $viewModel.isShowingPlaceError, error: viewModel.recentPlaceError, actions: {})
+            .alert(isPresented: $viewModel.isShowingWeatherError, error: viewModel.weatherError, actions: {})
             .navigationTitle("Weather report")
             .task {
                 await viewModel.loadRecentPlace()

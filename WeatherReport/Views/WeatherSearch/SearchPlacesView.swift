@@ -38,6 +38,9 @@ struct SearchPlacesView: View {
                 .onSubmit(of: .search) {
                     viewModel.searchPlaces()
                 }
+                .alert(isPresented: $viewModel.isShowingPlaceError, error: viewModel.placeError, actions: {})
+                .alert(isPresented: $viewModel.isShowingWeatherError, error: viewModel.weatherError, actions: {})
+                .alert(isPresented: $viewModel.isShowingSaveError, error: viewModel.saveError, actions: {})
             }
         }
     }
