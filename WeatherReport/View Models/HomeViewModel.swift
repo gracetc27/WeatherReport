@@ -13,8 +13,10 @@ class HomeViewModel {
     private let service = OpenWeatherMapAPI()
     var recentPlace: Coordinate?
     var recentWeather: Weather?
-    var recentPlaceError: Error?
-    var weatherError: Error?
+    var recentPlaceError: SaveLoadError?
+    var weatherError: APIError?
+    var isShowingWeatherError: Bool = false
+    var isShowingPlaceError: Bool = false
     var iconUrl: URL? {
         if let recentWeather {
           return service.getWeatherIconURL(iconString: recentWeather.weather[0].icon)
@@ -28,11 +30,12 @@ class HomeViewModel {
     }
 
     func loadRecentPlace() async {
-        do {
+        do throws(SaveLoadError){
             try await placeManager.loadSavedPlace()
             recentPlace = placeManager.recentSelectedPlace
         } catch {
             self.recentPlaceError = error
+            self.isShowingPlaceError = true
         }
     }
 
@@ -49,6 +52,7 @@ class HomeViewModel {
                     rain: apiWeather.rain)
             } catch {
                 self.weatherError = error
+                self.isShowingWeatherError = true
             }
         }
     }

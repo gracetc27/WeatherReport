@@ -14,22 +14,22 @@ class PlaceManager {
     private let savePath = URL.documentsDirectory.appendingPathComponent("recent place")
 
 
-    func loadSavedPlace() async throws {
+    func loadSavedPlace() async throws(SaveLoadError) {
         do {
             let data = try Data(contentsOf: savePath)
             recentSelectedPlace = try JSONDecoder().decode(Coordinate.self, from: data)
         } catch {
-            throw error
+            throw .loadingFailed
         }
     }
 
-    func savePlace(_ place: Coordinate) throws {
+    func savePlace(_ place: Coordinate) throws(SaveLoadError) {
         do {
             recentSelectedPlace = place
             let data = try JSONEncoder().encode(recentSelectedPlace)
             try data.write(to: savePath, options: [.atomic, .completeFileProtection])
         } catch {
-            throw error
+            throw .savingFailed
         }
     }
 }
