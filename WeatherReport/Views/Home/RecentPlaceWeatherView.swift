@@ -17,6 +17,7 @@ struct RecentPlaceWeatherView: View {
                 HStack(alignment: .top) {
                     TempPanel(main: weather.main)
                     WindPanel(wind: weather.wind)
+                    PrecipitationPanel(rain: weather.rain, clouds: weather.clouds)
                 }
                 .padding()
             }
