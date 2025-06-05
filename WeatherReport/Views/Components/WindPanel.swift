@@ -29,7 +29,6 @@ struct WindPanel: View {
                 }
             }
         }
-        .frame(width: screenWidth * 0.9)
     }
 }
 

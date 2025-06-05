@@ -15,9 +15,12 @@ struct RecentPlaceWeatherView: View {
             GeneralWeatherPanel(weather: weather, url: url)
             ScrollView(.horizontal) {
                 HStack(alignment: .top) {
-                    TempPanel(main: weather.main)
-                    WindPanel(wind: weather.wind)
-                    PrecipitationPanel(rain: weather.rain, clouds: weather.clouds)
+                    Group {
+                        TempPanel(main: weather.main)
+                        WindPanel(wind: weather.wind)
+                        PrecipitationPanel(rain: weather.rain, clouds: weather.clouds)
+                    }
+                    .containerRelativeFrame(.horizontal, count: 4, span: 3, spacing: 10)
                 }
                 .padding()
             }

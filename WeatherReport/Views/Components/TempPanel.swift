@@ -32,7 +32,6 @@ struct TempPanel: View {
                 }
             }
         }
-        .frame(width: screenWidth * 0.9)
     }
 
     @ViewBuilder
