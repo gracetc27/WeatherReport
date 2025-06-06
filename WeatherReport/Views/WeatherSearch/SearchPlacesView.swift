@@ -33,7 +33,11 @@ struct SearchPlacesView: View {
                     if let place = viewModel.place,
                        let weather = viewModel.weather,
                        let iconUrl = viewModel.iconUrl {
-                        WeatherDetailView(place: place, weather: weather, iconUrl: iconUrl)
+                        WeatherDetailView(
+                            place: place,
+                            weather: weather,
+                            iconUrl: iconUrl
+                        )
                             .padding(.vertical)
                     }
                 }
