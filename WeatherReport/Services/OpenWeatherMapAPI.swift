@@ -7,7 +7,7 @@
 
 import Foundation
 
-class OpenWeatherMapAPI {
+class OpenWeatherMapAPI: WeatherServiceProtocol {
     static let apiKey: String = {
         let url = Bundle.main.url(forResource: "APIKeys", withExtension: "plist")!
         let dict = NSDictionary(contentsOf: url)!
@@ -28,6 +28,7 @@ class OpenWeatherMapAPI {
 
         do {
             (data, _) = try await URLSession.shared.data(for: request)
+            print(String(data: data, encoding: .utf8))
         } catch {
             throw .noData
         }
