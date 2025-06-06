@@ -17,7 +17,7 @@ struct MainTabView: View {
                     Label("Home", systemImage: "house")
                 }
             
-            SearchPlacesView(placeManager: placeManager)
+            SearchPlacesView(placeManager: placeManager, service: service)
                 .tabItem {
                     Label("Weather Search", systemImage: "magnifyingglass")
                 }

@@ -28,7 +28,6 @@ class OpenWeatherMapAPI: WeatherServiceProtocol {
 
         do {
             (data, _) = try await URLSession.shared.data(for: request)
-            print(String(data: data, encoding: .utf8))
         } catch {
             throw .noData
         }

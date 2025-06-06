@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SearchPlacesView: View {
     @State private var viewModel: SearchPlacesViewModel
-    init(placeManager: PlaceManager) {
-        self._viewModel = State(initialValue: SearchPlacesViewModel(placeManager: placeManager))
+    init(placeManager: PlaceManager, service: WeatherServiceProtocol) {
+        self._viewModel = State(initialValue: SearchPlacesViewModel(placeManager: placeManager, service: service))
     }
 
     var body: some View {
@@ -30,8 +30,12 @@ struct SearchPlacesView: View {
                     }
                 }
                 .sheet(isPresented: $viewModel.weatherSheetIsActive) {
-                    WeatherDetailView(viewModel: viewModel)
-                        .padding(.vertical)
+                    if let place = viewModel.place,
+                       let weather = viewModel.weather,
+                       let iconUrl = viewModel.iconUrl {
+                        WeatherDetailView(place: place, weather: weather, iconUrl: iconUrl)
+                            .padding(.vertical)
+                    }
                 }
                 .searchable(text: $viewModel.searchText)
                 .navigationTitle("City search")
@@ -47,5 +51,5 @@ struct SearchPlacesView: View {
 }
 
 #Preview {
-    SearchPlacesView(placeManager: PlaceManager())
+    SearchPlacesView(placeManager: PlaceManager(), service: MockWeatherService())
 }

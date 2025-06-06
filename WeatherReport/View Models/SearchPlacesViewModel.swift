@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 class SearchPlacesViewModel {
-    private let service = OpenWeatherMapAPI()
+    private let service: WeatherServiceProtocol
     private let placeManager: PlaceManager
     var searchText = ""
     var isSearching = false
@@ -21,11 +21,19 @@ class SearchPlacesViewModel {
     var isShowingSaveError: Bool = false
     var coordinates: [Coordinate] = []
     var weatherSheetIsActive = false
-    var weather: Weather = .defaultWeather
-    var place: Coordinate = .defaultPlace
+    var weather: Weather?
+    var place: Coordinate?
+    var iconUrl: URL? {
+        if let weather {
+          return service.getWeatherIconURL(iconString: weather.weather[0].icon)
+        } else {
+            return nil
+        }
+    }
 
-    init(placeManager: PlaceManager) {
+    init(placeManager: PlaceManager, service: WeatherServiceProtocol) {
         self.placeManager = placeManager
+        self.service = service
     }
 
     var searchCoordTask: Task<Void, Never>?
@@ -57,43 +65,43 @@ class SearchPlacesViewModel {
     }
 
     func saveRecentPlace() {
-        do throws(SaveLoadError) {
-            try placeManager.savePlace(self.place)
-        } catch {
-            self.saveError = error
-            self.isShowingSaveError = true
+        if let place {
+            do throws(SaveLoadError) {
+                try placeManager.savePlace(place)
+            } catch {
+                self.saveError = error
+                self.isShowingSaveError = true
+            }
         }
     }
 
     func getWeatherForCoord() {
         searchWeatherTask?.cancel()
         searchWeatherTask = Task {
-            do throws(APIError) {
-                let apiWeather = try await service.getWeather(lon: place.lon, lat: place.lat)
-                self.weather = Weather(
-                    coord: apiWeather.coord,
-                    weather: apiWeather.weather,
-                    main: MainWeather(
-                        temp: apiWeather.main.temp,
-                        feelsLike: apiWeather.main.feelsLike,
-                        tempMin: apiWeather.main.tempMin,
-                        tempMax: apiWeather.main.tempMax,
-                        pressure: apiWeather.main.pressure,
-                        humidity: apiWeather.main.humidity),
-                    wind: Wind(
-                        speed: apiWeather.wind.speed,
-                        deg: apiWeather.wind.deg,
-                        gust: apiWeather.wind.gust),
-                    clouds: apiWeather.clouds,
-                    rain: Rain(perHour: apiWeather.rain?.perHour))
-            } catch {
-                self.weatherError = error
-                self.isShowingWeatherError = true
+            if let place {
+                do throws(APIError) {
+                    let apiWeather = try await service.getWeather(lon: place.lon, lat: place.lat)
+                    self.weather = Weather(
+                        coord: apiWeather.coord,
+                        weather: apiWeather.weather,
+                        main: MainWeather(
+                            temp: apiWeather.main.temp,
+                            feelsLike: apiWeather.main.feelsLike,
+                            tempMin: apiWeather.main.tempMin,
+                            tempMax: apiWeather.main.tempMax,
+                            pressure: apiWeather.main.pressure,
+                            humidity: apiWeather.main.humidity),
+                        wind: Wind(
+                            speed: apiWeather.wind.speed,
+                            deg: apiWeather.wind.deg,
+                            gust: apiWeather.wind.gust),
+                        clouds: apiWeather.clouds,
+                        rain: Rain(perHour: apiWeather.rain?.perHour))
+                } catch {
+                    self.weatherError = error
+                    self.isShowingWeatherError = true
+                }
             }
         }
-    }
-
-    func getIconURL() -> URL {
-        service.getWeatherIconURL(iconString: self.weather.weather[0].icon)
     }
 }

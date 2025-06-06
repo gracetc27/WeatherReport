@@ -9,16 +9,18 @@ import SwiftUI
 
 struct WeatherDetailView: View {
     @Environment(\.dismiss) var dismiss
-    let viewModel: SearchPlacesViewModel
+    let place: Coordinate
+    let weather: Weather
+    let iconUrl: URL
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    PlaceTitleView(place: viewModel.place)
-                    GeneralWeatherPanel(weather: viewModel.weather, url: viewModel.getIconURL())
-                    TempPanel(main: viewModel.weather.main)
-                    WindPanel(wind: viewModel.weather.wind)
-                    PrecipitationPanel(rain: viewModel.weather.rain, clouds: viewModel.weather.clouds)
+                    PlaceTitleView(place: place)
+                    GeneralWeatherPanel(weather: weather, url: iconUrl)
+                    TempPanel(main: weather.main)
+                    WindPanel(wind: weather.wind)
+                    PrecipitationPanel(rain: weather.rain, clouds: weather.clouds)
                 }
                 .toolbar {
                     Button("Done") {
@@ -32,5 +34,5 @@ struct WeatherDetailView: View {
 }
 
 #Preview {
-    WeatherDetailView(viewModel: SearchPlacesViewModel(placeManager: PlaceManager()))
+    WeatherDetailView(place: .defaultPlace, weather: .defaultWeather, iconUrl: URL(string: "fake url")!)
 }
