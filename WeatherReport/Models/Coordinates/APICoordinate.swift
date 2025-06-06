@@ -8,7 +8,6 @@ import Foundation
 
 struct APICoordinate: Codable {
     let name: String
-    let localNames: [String: String]
     let lat: Double
     let lon: Double
     let country: String

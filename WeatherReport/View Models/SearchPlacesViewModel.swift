@@ -43,7 +43,6 @@ class SearchPlacesViewModel {
                     Coordinate(
                         id: UUID(),
                         name: apiCoordinate.name,
-                        localNames: apiCoordinate.localNames,
                         lat: apiCoordinate.lat,
                         lon: apiCoordinate.lon,
                         country: apiCoordinate.country,
