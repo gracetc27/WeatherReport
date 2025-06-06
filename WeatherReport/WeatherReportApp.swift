@@ -10,9 +10,10 @@ import SwiftUI
 @main
 struct WeatherReportApp: App {
     let placeManager = PlaceManager()
+    let service = OpenWeatherMapAPI()
     var body: some Scene {
         WindowGroup {
-            MainTabView(placeManager: placeManager)
+            MainTabView(placeManager: placeManager, service: service)
         }
     }
 }

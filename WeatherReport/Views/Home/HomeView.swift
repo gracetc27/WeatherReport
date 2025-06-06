@@ -9,8 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var viewModel: HomeViewModel
-    init(placeManager: PlaceManager) {
-        self._viewModel = State(initialValue: HomeViewModel(placeManager: placeManager))
+    init(placeManager: PlaceManager, service: WeatherServiceProtocol) {
+        self._viewModel = State(initialValue: HomeViewModel(placeManager: placeManager, service: service))
     }
     var body: some View {
         NavigationStack {
@@ -45,5 +45,5 @@ struct HomeView: View {
 
 
 #Preview {
-    HomeView(placeManager: PlaceManager())
+    HomeView(placeManager: PlaceManager(), service: MockWeatherService())
 }

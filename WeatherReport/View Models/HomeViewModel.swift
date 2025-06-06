@@ -10,7 +10,7 @@ import Foundation
 @Observable
 class HomeViewModel {
     private let placeManager: PlaceManager
-    private let service = OpenWeatherMapAPI()
+    private let service: WeatherServiceProtocol
     var recentPlace: Coordinate?
     var recentWeather: Weather?
     var recentPlaceError: SaveLoadError?
@@ -25,8 +25,9 @@ class HomeViewModel {
         }
     }
 
-    init(placeManager: PlaceManager) {
+    init(placeManager: PlaceManager, service: WeatherServiceProtocol) {
         self.placeManager = placeManager
+        self.service = service
     }
 
     func loadRecentPlace() async {

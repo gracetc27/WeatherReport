@@ -9,9 +9,10 @@ import SwiftUI
 
 struct MainTabView: View {
     let placeManager: PlaceManager
+    let service: WeatherServiceProtocol
     var body: some View {
         TabView {
-            HomeView(placeManager: placeManager)
+            HomeView(placeManager: placeManager, service: service)
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
@@ -25,5 +26,5 @@ struct MainTabView: View {
 }
 
 #Preview {
-    MainTabView(placeManager: PlaceManager())
+    MainTabView(placeManager: PlaceManager(), service: MockWeatherService())
 }
