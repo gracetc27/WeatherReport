@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 class HomeViewModel {
-    private let placeManager: PlaceManager
+    private let placeManager: PlaceManagerProtocol
     private let service: WeatherServiceProtocol
     var recentPlace: Coordinate?
     var recentWeather: Weather?
@@ -25,7 +25,7 @@ class HomeViewModel {
         }
     }
 
-    init(placeManager: PlaceManager, service: WeatherServiceProtocol) {
+    init(placeManager: PlaceManagerProtocol, service: WeatherServiceProtocol) {
         self.placeManager = placeManager
         self.service = service
     }

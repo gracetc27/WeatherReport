@@ -10,7 +10,7 @@ import Foundation
 @Observable
 class SearchPlacesViewModel {
     private let service: WeatherServiceProtocol
-    private let placeManager: PlaceManager
+    private let placeManager: PlaceManagerProtocol
     var searchText = ""
     var isSearching = false
     var weatherError: APIError?
@@ -31,7 +31,7 @@ class SearchPlacesViewModel {
         }
     }
 
-    init(placeManager: PlaceManager, service: WeatherServiceProtocol) {
+    init(placeManager: PlaceManagerProtocol, service: WeatherServiceProtocol) {
         self.placeManager = placeManager
         self.service = service
     }

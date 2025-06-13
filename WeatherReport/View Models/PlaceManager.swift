@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class PlaceManager {
+class PlaceManager: PlaceManagerProtocol {
     var recentSelectedPlace: Coordinate?
 
     private let savePath = URL.documentsDirectory.appendingPathComponent("recent place")
