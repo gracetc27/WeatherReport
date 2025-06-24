@@ -32,8 +32,7 @@ class HomeViewModel {
 
     func loadRecentPlace() async {
         do throws(SaveLoadError){
-            try await placeManager.loadSavedPlace()
-            recentPlace = placeManager.recentSelectedPlace
+            try await recentPlace = placeManager.loadSavedPlace()
         } catch {
             self.recentPlaceError = error
             self.isShowingPlaceError = true

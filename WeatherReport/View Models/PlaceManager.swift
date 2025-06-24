@@ -9,15 +9,15 @@ import Foundation
 
 @Observable
 class PlaceManager: PlaceManagerProtocol {
-    var recentSelectedPlace: Coordinate?
 
     private let savePath = URL.documentsDirectory.appendingPathComponent("recent place")
 
 
-    func loadSavedPlace() async throws(SaveLoadError) {
+    func loadSavedPlace() async throws(SaveLoadError) -> Coordinate {
         do {
             let data = try Data(contentsOf: savePath)
-            recentSelectedPlace = try JSONDecoder().decode(Coordinate.self, from: data)
+            let recentSelectedPlace = try JSONDecoder().decode(Coordinate.self, from: data)
+            return recentSelectedPlace
         } catch {
             throw .loadingFailed
         }
@@ -25,8 +25,7 @@ class PlaceManager: PlaceManagerProtocol {
 
     func savePlace(_ place: Coordinate) throws(SaveLoadError) {
         do {
-            recentSelectedPlace = place
-            let data = try JSONEncoder().encode(recentSelectedPlace)
+            let data = try JSONEncoder().encode(place)
             try data.write(to: savePath, options: [.atomic, .completeFileProtection])
         } catch {
             throw .savingFailed

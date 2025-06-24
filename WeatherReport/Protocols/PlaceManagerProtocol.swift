@@ -9,7 +9,6 @@ import Foundation
 
 
 protocol PlaceManagerProtocol {
-    var recentSelectedPlace: Coordinate? { get set }
-    func loadSavedPlace() async throws(SaveLoadError)
+    func loadSavedPlace() async throws(SaveLoadError) -> Coordinate
     func savePlace(_ place: Coordinate) throws(SaveLoadError)
 }
