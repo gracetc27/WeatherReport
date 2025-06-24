@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Weather: Codable {
+struct Weather: Codable, Equatable {
     let coord: APICoord
     let weather: [APIWeatherIcon]
     let main: MainWeather

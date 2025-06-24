@@ -7,27 +7,27 @@
 import Foundation
 
 
-struct APIWeatherIcon: Codable {
+struct APIWeatherIcon: Codable, Equatable {
     let id: Int
     let main, description, icon: String
 }
 
-struct APIMainWeather: Codable {
+struct APIMainWeather: Codable, Equatable {
     let temp, feelsLike, tempMin, tempMax: Double?
     let pressure, humidity: Int?
 }
 
-struct APIWind: Codable {
+struct APIWind: Codable, Equatable {
     let speed: Double?
     let deg: Int?
     let gust: Double?
 }
 
-struct APICoord: Codable {
+struct APICoord: Codable, Equatable {
     let lon, lat: Double
 }
 
-struct APIRain: Codable {
+struct APIRain: Codable, Equatable {
     let perHour: Double?
 
     enum CodingKeys: String, CodingKey {
@@ -35,7 +35,7 @@ struct APIRain: Codable {
     }
 }
 
-struct APIClouds: Codable {
+struct APIClouds: Codable, Equatable {
     let all: Int
 }
 

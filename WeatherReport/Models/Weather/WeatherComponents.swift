@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct MainWeather: Codable {
+struct MainWeather: Codable, Equatable {
     let temp, feelsLike, tempMin, tempMax: Double?
     var tempMeasurement: Measurement<UnitTemperature>? {
         Measurement(value: temp ?? 0, unit: .celsius)
@@ -26,7 +26,7 @@ struct MainWeather: Codable {
     let pressure, humidity: Int?
 }
 
-struct Wind: Codable {
+struct Wind: Codable, Equatable {
     let speed: Double?
     let deg: Int?
     let gust: Double?
@@ -38,7 +38,7 @@ struct Wind: Codable {
     }
 }
 
-struct Rain: Codable {
+struct Rain: Codable, Equatable {
     let perHour: Double?
     var perHourMeasurement: Measurement<UnitLength>? {
         Measurement(value: perHour ?? 0, unit: .millimeters)
