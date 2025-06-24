@@ -12,45 +12,38 @@ import Foundation
 struct HomeViewModelTests {
 
     @Test func loadRecentPlaceUpdatesPlaceSuccess() async throws {
-        let testPlaceManager = FakePlaceManager()
+        let testPlaceManager = FakePlaceManager(loadSavedPlaceResult: .success(.defaultPlace))
         let sut = HomeViewModel(placeManager: testPlaceManager, service: FakeWeatherServiceSuccess())
         #expect(sut.recentPlace == nil)
-
-        try testPlaceManager.savePlace(.defaultPlace)
-
         await sut.loadRecentPlace()
 
         #expect(sut.recentPlace == .defaultPlace)
     }
 
     @Test func loadRecentPlaceUpdatesPlaceFailure() async throws {
+        let testPlaceManager = FakePlaceManager(loadSavedPlaceResult: .failure(.loadingFailed))
+        let sut = HomeViewModel(placeManager: testPlaceManager, service: FakeWeatherServiceSuccess())
+        #expect(sut.recentPlace == nil)
 
+        await sut.loadRecentPlace()
 
+        #expect(sut.recentPlace == nil)
+        #expect(sut.recentPlaceError == .loadingFailed)
     }
 }
 
 class FakePlaceManager: PlaceManagerProtocol {
-    var recentSelectedPlace: Coordinate?
-    private let savePath = URL.documentsDirectory.appendingPathComponent("test place manager")
+    let loadSavedPlaceResult: Result<Coordinate, SaveLoadError>
 
-    func loadSavedPlace() async throws(SaveLoadError) {
-        do {
-            let data = try Data(contentsOf: savePath)
-            recentSelectedPlace = try JSONDecoder().decode(Coordinate.self, from: data)
-        } catch {
-            throw .loadingFailed
-        }
+    init(loadSavedPlaceResult: Result<Coordinate, SaveLoadError>) {
+        self.loadSavedPlaceResult = loadSavedPlaceResult
     }
-    
-    func savePlace(_ place: Coordinate) throws(SaveLoadError) {
-        do {
-            recentSelectedPlace = place
-            let data = try JSONEncoder().encode(recentSelectedPlace)
-            try data.write(to: savePath, options: [.atomic, .completeFileProtection])
-        } catch {
-            throw .savingFailed
-        }
+
+    func loadSavedPlace() async throws(SaveLoadError) -> Coordinate {
+        try loadSavedPlaceResult.get()
     }
+
+    func savePlace(_ place: Coordinate) throws(SaveLoadError) {}
 }
 
 class FakeWeatherServiceSuccess: WeatherServiceProtocol {
