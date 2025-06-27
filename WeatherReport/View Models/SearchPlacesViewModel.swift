@@ -36,8 +36,6 @@ class SearchPlacesViewModel {
         self.service = service
     }
 
-    private var searchWeatherTask: Task<Void, Never>?
-
     func searchPlaces() async {
         isSearching = true
         defer { isSearching = false }
@@ -70,33 +68,31 @@ class SearchPlacesViewModel {
         }
     }
 
-    func getWeatherForCoord() {
-        searchWeatherTask?.cancel()
-        searchWeatherTask = Task {
-            if let place {
-                do throws(APIError) {
-                    let apiWeather = try await service.getWeather(lon: place.lon, lat: place.lat)
-                    self.weather = Weather(
-                        coord: apiWeather.coord,
-                        weather: apiWeather.weather,
-                        main: MainWeather(
-                            temp: apiWeather.main.temp,
-                            feelsLike: apiWeather.main.feelsLike,
-                            tempMin: apiWeather.main.tempMin,
-                            tempMax: apiWeather.main.tempMax,
-                            pressure: apiWeather.main.pressure,
-                            humidity: apiWeather.main.humidity),
-                        wind: Wind(
-                            speed: apiWeather.wind.speed,
-                            deg: apiWeather.wind.deg,
-                            gust: apiWeather.wind.gust),
-                        clouds: apiWeather.clouds,
-                        rain: Rain(perHour: apiWeather.rain?.perHour))
-                } catch {
-                    self.weatherError = error
-                    self.isShowingWeatherError = true
-                }
+    func getWeatherForCoord() async {
+        if let place {
+            do throws(APIError) {
+                let apiWeather = try await service.getWeather(lon: place.lon, lat: place.lat)
+                self.weather = Weather(
+                    coord: apiWeather.coord,
+                    weather: apiWeather.weather,
+                    main: MainWeather(
+                        temp: apiWeather.main.temp,
+                        feelsLike: apiWeather.main.feelsLike,
+                        tempMin: apiWeather.main.tempMin,
+                        tempMax: apiWeather.main.tempMax,
+                        pressure: apiWeather.main.pressure,
+                        humidity: apiWeather.main.humidity),
+                    wind: Wind(
+                        speed: apiWeather.wind.speed,
+                        deg: apiWeather.wind.deg,
+                        gust: apiWeather.wind.gust),
+                    clouds: apiWeather.clouds,
+                    rain: Rain(perHour: apiWeather.rain?.perHour))
+            } catch {
+                self.weatherError = error
+                self.isShowingWeatherError = true
             }
         }
     }
 }
+

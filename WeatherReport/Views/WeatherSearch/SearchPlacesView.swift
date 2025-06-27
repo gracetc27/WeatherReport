@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchPlacesView: View {
     @State private var coordTask: Task<Void, Never>?
+    @State private var weatherTask: Task<Void, Never>?
     @State private var viewModel: SearchPlacesViewModel
     init(placeManager: PlaceManager, service: WeatherServiceProtocol) {
         self._viewModel = State(initialValue: SearchPlacesViewModel(placeManager: placeManager, service: service))
@@ -23,7 +24,10 @@ struct SearchPlacesView: View {
                     ForEach(viewModel.coordinates) { place in
                         Button {
                             viewModel.saveRecentPlace()
-                            viewModel.getWeatherForCoord()
+                            weatherTask?.cancel()
+                            weatherTask = Task {
+                                await viewModel.getWeatherForCoord()
+                            }
                             viewModel.weatherSheetIsActive = true
                         } label: {
                             Text(place.name)
