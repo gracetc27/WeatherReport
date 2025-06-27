@@ -36,31 +36,26 @@ class SearchPlacesViewModel {
         self.service = service
     }
 
-    var searchCoordTask: Task<Void, Never>?
+    private var searchWeatherTask: Task<Void, Never>?
 
-    var searchWeatherTask: Task<Void, Never>?
+    func searchPlaces() async {
+        isSearching = true
+        defer { isSearching = false }
 
-    func searchPlaces() {
-        searchCoordTask?.cancel()
-        searchCoordTask = Task {
-            isSearching = true
-            defer { isSearching = false }
-
-            do throws(APIError) {
-                coordinates = try await service.getCoordinates(searchTerm: self.searchText).map { apiCoordinate in
-                    Coordinate(
-                        id: UUID(),
-                        name: apiCoordinate.name,
-                        lat: apiCoordinate.lat,
-                        lon: apiCoordinate.lon,
-                        country: apiCoordinate.country,
-                        state: apiCoordinate.state)
-                }
-                self.place = coordinates[0]
-            } catch {
-                self.placeError = error
-                self.isShowingPlaceError = true
+        do throws(APIError) {
+            coordinates = try await service.getCoordinates(searchTerm: self.searchText).map { apiCoordinate in
+                Coordinate(
+                    id: UUID(),
+                    name: apiCoordinate.name,
+                    lat: apiCoordinate.lat,
+                    lon: apiCoordinate.lon,
+                    country: apiCoordinate.country,
+                    state: apiCoordinate.state)
             }
+            self.place = coordinates[0]
+        } catch {
+            self.placeError = error
+            self.isShowingPlaceError = true
         }
     }
 

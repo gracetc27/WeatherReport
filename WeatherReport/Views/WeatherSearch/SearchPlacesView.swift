@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SearchPlacesView: View {
+    @State private var coordTask: Task<Void, Never>?
     @State private var viewModel: SearchPlacesViewModel
     init(placeManager: PlaceManager, service: WeatherServiceProtocol) {
         self._viewModel = State(initialValue: SearchPlacesViewModel(placeManager: placeManager, service: service))
@@ -44,7 +45,10 @@ struct SearchPlacesView: View {
                 .searchable(text: $viewModel.searchText)
                 .navigationTitle("City search")
                 .onSubmit(of: .search) {
-                    viewModel.searchPlaces()
+                    coordTask?.cancel()
+                    coordTask = Task {
+                        await viewModel.searchPlaces()
+                    }
                 }
                 .alert(isPresented: $viewModel.isShowingPlaceError, error: viewModel.placeError, actions: {})
                 .alert(isPresented: $viewModel.isShowingWeatherError, error: viewModel.weatherError, actions: {})

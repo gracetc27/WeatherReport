@@ -22,6 +22,7 @@ struct WeatherDetailView: View {
                     WindPanel(wind: weather.wind)
                     PrecipitationPanel(rain: weather.rain, clouds: weather.clouds)
                 }
+                .padding(.horizontal)
                 .toolbar {
                     Button("Done") {
                         dismiss()
